@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Documentation</title>
+    </head>
+    <body>
+        <div id="synopsis">
+            <p>
+                This is "MovieBase". 
+                MovieBase is an API intended to provide users with access to information about their favorite movies.        
+            </p>
+        </div>
+
+        <table id="routing-table">
+            <tr>
+                <th>Business logic</th>
+                <th>URL</th>
+                <th>HTTP Method</th>
+                <th>parameters</th>
+                <th>Request body data format</th>
+                <th>Response body data format</th>
+            </tr>
+            <tr>
+                <td>return a list of all movies</td>
+                <td>/movies</td>
+                <td>get</td>
+                <td>none</td>
+                <td>none</td>
+                <td>a json object with all movies</td>
+            </tr>
+            <tr>
+                <td>return data on a single movie as per user request</td>
+                <td>/movies/:title</td>
+                <td>get</td>
+                <td>title</td>
+                <td>none</td>
+                <td>a json object with data on the requsted movie title</td>
+            </tr>
+            <tr>
+                <td>return a description about a genre i.e Science Fiction</td>
+                <td>/movies/genre/:genreName</td>
+                <td>get</td>
+                <td>genreName</td>
+                <td>none</td>
+                <td>a json object with genre description</td>
+            </tr>
+            <tr>
+                <td>return info on director from director name</td>
+                <td>/movies/director/:directorName</td>
+                <td>get</td>
+                <td>directorName</td>
+                <td>none</td>
+                <td>a json object with director info</td>
+            </tr>
+            <tr>
+                <td>allow users to register</td>
+                <td>/users</td>
+                <td>post</td>
+                <td>none</td>
+                <td>a json object containing user Name eg:
+                    {
+                        Name: ''           
+                    }
+                </td>
+                <td>a json object showing newUser data</td>
+            </tr>
+            <tr>
+                <td>allow user to change name</td>
+                <td>/users/:id</td>
+                <td>put</td>
+                <td>id</td>
+                <td>a json object with new updated name eg:
+                    {
+                        Name: ''
+                    }
+                </td>
+                <td>a json object showing updatedUser.Name</td>
+            </tr>
+            <tr>
+                <td>allow user to add a movie to their favoriteMovie array</td>
+                <td>/users/:id/:movieTitle</td>
+                <td>post</td>
+                <td>id, movieTitle</td>
+                <td>a json object with new movieTitle in array favoriteMovies eg:
+                    {
+                        Title: ''
+                    }
+                </td>
+                <td>a text response confirming the title has been added</td>
+            </tr>
+            <tr>
+                <td>allow user to delete a movie from their list</td>
+                <td>/users/:id/:movieTitle</td>
+                <td>delete</td>
+                <td>id, movieTitle</td>
+                <td>a json object with the movieTitle to be removed</td>
+                <td>a text response confirming the title has been removed</td>
+            </tr>
+            <tr>
+                <td>allow user to unregister</td>
+                <td>/users/:id</td>
+                <td>delete</td>
+                <td>id</td>
+                <td>a json object with the user id number</td>
+                <td>a text response confirming user id has been deleted</td>
+            </tr>
+
+        </table>
+
+    </body>
+</html>
+
+
