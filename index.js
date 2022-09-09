@@ -24,28 +24,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 // cross origin resource sharing package
+
 const cors = require('cors');
-//app.use(cors());
+app.use(cors());
+
 /* the following code limits access to listed origins. 
 if used, it replaces app.use(cors()) above */
-let allowedOrigins = [ 'http://localhost:8080', 'http://testsite.com'];
+/*let allowedOrigins = [ 'http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
-    origin: (origin, callback) => {
+   origin: (origin, callback) => {
         if(!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(origin) === -1){/* if a specific origin isn't found
-        on the list of allowed origins. -1 is a non existant index value as indices start at 0*/
+        if(allowedOrigins.indexOf(origin) === -1){ if a specific origin isn't found
+        on the list of allowed origins. -1 is a non existant index value as indices start at 0
             let message = 'The CORS policy for this application does not allow access from origin' + origin;
                 return callback(new Error(message), false);
             }
             return callback(null, true);
     }
-}));
+}));*/
 
 // passport. this must come after body-parser
-let auth = require('./auth')(app);
+let auth = require('./auth.js')(app);
 const passport = require('passport');
-require('./passport');
+require('./passport.js');
 
 // apply morgan
 app.use(morgan('common'));
@@ -55,6 +57,85 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 
 // CRUD operations begin
+
+// READS
+
+app.get('/', (req, res) => {
+    res.send('Welcome to MovieBase')
+})
+
+// send request for the ENTIRE movie list
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res)=>{
+    Movies.find()
+    .then((movies) => {
+        res.status(201).json(movies);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: "+ err);
+    });
+});
+
+// request movie by title
+app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ Title: req.params.title})
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    }); 
+}); 
+
+// request info about genre
+app.get('/movies/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
+   Movies.findOne({ 'Genre.Name': req.params.Name })
+   .then((movies) => {
+    res.json(movies.Genre);
+   })
+   .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error ' + err );
+   });
+});
+
+// request director by name
+app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findOne({ 'Director.Name': req.params.Name })
+  .then((movies) => {
+    res.json(movies.Director);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error' + err);
+  });
+});
+
+// get all users
+app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Users.find()
+    .then((users) => {
+        res.status(201).json(users);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error:' + err);
+    });
+});
+
+// get a user by username
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Users.findOne({ Username: req.params.Username})
+    .then((user) => {
+        res.json(user);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error' + err);
+    });
+});
+
 
 // CREATE
 
@@ -185,87 +266,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
     });
 });
 
-// READS
-
-// send request for the ENTIRE movie list
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res)=>{
-    Movies.find()
-    .then((movies) => {
-        res.status(201).json(movies);
-    })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: "+ err);
-    });
-});
-
-// request movie by title
-app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne({ Title: req.params.title})
-    .then((movie) => {
-        res.json(movie);
-    })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-    }); 
-}); 
-
-// request info about genre
-app.get('/movies/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
-   Movies.findOne({ 'Genre.Name': req.params.Name })
-   .then((movies) => {
-    res.json(movies.Genre);
-   })
-   .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error ' + err );
-   });
-});
-
-// request director by name
-app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne({ 'Director.Name': req.params.Name })
-  .then((movies) => {
-    res.json(movies.Director);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error' + err);
-  });
-});
-
-// get all users
-app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
-    Users.find()
-    .then((users) => {
-        res.status(201).json(users);
-    })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error:' + err);
-    });
-});
-
-// get a user by username
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-    Users.findOne({ Username: req.params.Username})
-    .then((user) => {
-        res.json(user);
-    })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error' + err);
-    });
-});
-
-
-
-
-
-app.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.send('Welcome to MovieBase');
-});
 
 app.get('/documentation.html', (req, res) => {
     res.sendFile('public/documentation.html', {root: __dirname});
