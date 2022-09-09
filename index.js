@@ -263,7 +263,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 
 
 
-app.get('/', (req, res) => {
+app.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.send('Welcome to MovieBase');
 });
 
