@@ -16,7 +16,10 @@ const Users = Models.User;
 const app = express();
 
 // apply body-parser
-mongoose.connect('mongodb://localhost:27017/MovieBaseDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// the below line is commented out but should be used instead of the one below it if you wish to test locally
+//mongoose.connect('mongodb://localhost:27017/MovieBaseDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
