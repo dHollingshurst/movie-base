@@ -54,7 +54,7 @@ app.use(morgan('common'));
 
 
 // direct static request to the public folder
-//app.use(express.static('public'));
+app.use(express.static('public'));
 
 // CRUD operations begin
 
