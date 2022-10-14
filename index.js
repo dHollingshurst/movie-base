@@ -88,6 +88,18 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req
         });
 });
 
+// get fav movies
+app.get('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Movies.find({ MovieID: req.params.MovieID })
+        .then((movie) => {
+            res.json(movie);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error:' + err);
+        });
+});
+
 // request info about genre
 app.get('/movies/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movies.findOne({ 'Genre.Name': req.params.Name })
@@ -135,6 +147,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
             res.status(500).send('Error' + err);
         });
 });
+
 
 
 // CREATE
