@@ -61,7 +61,7 @@ app.use(express.static('public'));
 // READS
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
+    res.sendFile('../movie-api-client/src/index.html')
 })
 
 // send request for the ENTIRE movie list
@@ -288,12 +288,12 @@ app.get('/documentation.html', (req, res) => {
 });
 
 // error handling middleware
-/*app.use((err, req, res, next) =>{
+app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('...feels like a mistake to me.')
-});*/
+});
 
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, () => {
     console.log('Listening on Port' + port);
 });
