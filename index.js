@@ -61,7 +61,7 @@ app.use(express.static('public'));
 // READS
 
 app.get('/', (req, res) => {
-    res.send('Welcome to MovieBase')
+    res.sendFile(__dirname + '/index.html')
 })
 
 // send request for the ENTIRE movie list
