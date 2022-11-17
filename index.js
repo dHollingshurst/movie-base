@@ -63,6 +63,11 @@ app.use(express.static('public'));
 
 // READS
 
+app.get('/', (req, res) => {
+    res.send('welcome to myFlix')
+    //res.sendFile('public/index.html', { root: __dirname });
+});
+
 
 
 // send request for the ENTIRE movie list
@@ -287,10 +292,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
 //     res.sendFile(path.resolve(__dirname, ''))
 // })
 
-app.get('/', (req, res) => {
-    //res.send('test')
-    res.sendFile('public/index.html', { root: __dirname });
-});
+
 
 app.get('/documentation.html', (req, res) => {
     res.sendFile('public/documentation.html', { root: __dirname });
