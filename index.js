@@ -18,7 +18,10 @@ const app = express();
 // apply body-parser
 // the below line is commented out but should be used instead of the one below it if you wish to test locally
 //mongoose.connect('mongodb://localhost:27017/MovieBaseDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,10 +63,7 @@ app.use(express.static('public'));
 
 // READS
 
-app.get('/', (req, res) => {
-    //res.send('test')
-    res.sendFile('public/movie-api-client/src/index.html', { root: __dirname });
-})
+
 
 // send request for the ENTIRE movie list
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -287,15 +287,20 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
 //     res.sendFile(path.resolve(__dirname, ''))
 // })
 
+app.get('/', (req, res) => {
+    res.send('test')
+    // res.sendFile('public/movie-api-client/src/index.html', { root: __dirname });
+})
+
 app.get('/documentation.html', (req, res) => {
     res.sendFile('public/documentation.html', { root: __dirname });
 });
 
 // // error handling middleware
-// app.use((err, req, res, next) => {
-//     console.error(err.stack);
-//     res.status(500).send('...feels like a mistake to me.')
-// });
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('...feels like a mistake to me.')
+});
 
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
