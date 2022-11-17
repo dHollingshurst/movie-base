@@ -26,23 +26,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // cross origin resource sharing package
 
 const cors = require('cors');
-app.use(cors());
+//app.use(cors());
 
-/* the following code limits access to listed origins. 
-if used, it replaces app.use(cors()) above */
-/*let allowedOrigins = [ 'http://localhost:8080', 'http://testsite.com'];
+//the following code limits access to listed origins. 
+//if used, it replaces app.use(cors()) above 
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://davemoviebase.herokuapp.com/'];
 
 app.use(cors({
-   origin: (origin, callback) => {
-        if(!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(origin) === -1){ if a specific origin isn't found
-        on the list of allowed origins. -1 is a non existant index value as indices start at 0
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {//if a specific origin isn't found on the list of allowed origins. -1 is a non existant index value as indices start at 0
+
             let message = 'The CORS policy for this application does not allow access from origin' + origin;
-                return callback(new Error(message), false);
-            }
-            return callback(null, true);
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
     }
-}));*/
+}));
 
 // passport. this must come after body-parser
 let auth = require('./auth.js')(app);
