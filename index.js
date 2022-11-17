@@ -54,14 +54,11 @@ app.use(morgan('common'));
 
 
 // direct static request to the public folder
-app.use('/', express.static(path.join(__dirname, '../movie-api-client/scr')));
+app.use(express.static('public'));
 
 // CRUD operations begin
 
 // READS
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../movie-api-client/src', 'index.html'))
-})
 
 app.get('/', (req, res) => {
     res.send('test')
@@ -286,6 +283,9 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
         });
 });
 
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, ''))
+// })
 
 app.get('/documentation.html', (req, res) => {
     res.sendFile('public/documentation.html', { root: __dirname });
