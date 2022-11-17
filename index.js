@@ -287,11 +287,11 @@ app.get('/documentation.html', (req, res) => {
     res.sendFile('public/documentation.html', { root: __dirname });
 });
 
-// error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('...feels like a mistake to me.')
-});
+// // error handling middleware
+// app.use((err, req, res, next) => {
+//     console.error(err.stack);
+//     res.status(500).send('...feels like a mistake to me.')
+// });
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
