@@ -288,8 +288,8 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
 // })
 
 app.get('/', (req, res) => {
-    res.send('test')
-    // res.sendFile('public/movie-api-client/src/index.html', { root: __dirname });
+    //res.send('test')
+    res.sendFile('public/index.html', { root: __dirname });
 });
 
 app.get('/documentation.html', (req, res) => {
